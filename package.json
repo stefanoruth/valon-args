@@ -2,8 +2,29 @@
     "name": "valon-args",
     "version": "1.0.0",
     "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "license": "MIT",
     "private": false,
+    "keywords": [
+        "typescript",
+        "cli",
+        "console",
+        "valon",
+        "argument",
+        "args",
+        "option",
+        "parser",
+        "parsing",
+        "cli",
+        "command"
+    ],
+    "files": [
+        "dist"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/stefanoruth/valon-args.git"
+    },
     "scripts": {
         "clean": "rm -rf dist/",
         "build": "tsc",
