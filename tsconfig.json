@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "outDir": "dist",
+        "sourceMap": true,
+        "baseUrl": "./src",
+        "strict": true,
+        "declaration": true,
+        "moduleResolution": "Node",
+        "removeComments": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "exclude": ["src/**/*.test.ts", "dist"]
+}
