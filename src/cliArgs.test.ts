@@ -1,4 +1,4 @@
-import { cli } from './index'
+import { cliArgs as cli } from './index'
 
 describe('Argument Types', () => {
     describe('String', () => {

@@ -1,4 +1,3 @@
-import { cli } from './cli'
 import { parseArgs } from './ParseArgs'
 
 describe('ParseArgs', () => {
@@ -24,5 +23,3 @@ describe('ParseArgs', () => {
         ])
     })
 })
-
-// node cli.js --bool --name= --names=2212 --names=21321

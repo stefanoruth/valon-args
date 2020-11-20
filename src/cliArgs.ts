@@ -2,7 +2,7 @@ import { parseArgs } from './ParseArgs'
 import { InputTypes, ReturnTypes } from './types'
 import { parseBoolean, parseNumber, required } from './Validation'
 
-export function cli<T extends { [k: string]: InputTypes }>(
+export function cliArgs<T extends { [k: string]: InputTypes }>(
     returnArgs: T,
     args?: string[]
 ): { [k in keyof T]: ReturnTypes<T[k]> } {
