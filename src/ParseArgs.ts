@@ -1,4 +1,6 @@
-export function parseArgs(args: string[]) {
+export type ParsedArgs = { name: string; value: string | undefined }[]
+
+export function parseArgs(args: string[]): ParsedArgs {
     return args.map(arg => {
         const splitPos = arg.indexOf('=')
         let name: string

@@ -1,6 +1,7 @@
 import { parseArgs } from './ParseArgs'
 import { InputTypes, ReturnTypes } from './types'
 import { parseBoolean, parseNumber, required } from './Validation'
+import { displayHelp, userWantsHelp } from './help'
 
 export function cliArgs<T extends { [k: string]: InputTypes }>(
     returnArgs: T,
@@ -40,18 +41,17 @@ export function cliArgs<T extends { [k: string]: InputTypes }>(
             const bool = getInput(key)
 
             if (bool) {
-                if (bool.value === '' || typeof bool.value === 'undefined') {
-                    value = true
-                } else {
-                    value = parseBoolean(bool.value)
-                }
+                value = parseBoolean(bool.value)
             }
         }
 
         ;(output as any)[key] = value
     }
 
-    // console.log({ input, output })
+    if (userWantsHelp(input)) {
+        console.log(displayHelp(returnArgs))
+        process.exit(0)
+    }
 
     return output as any
 }

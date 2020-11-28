@@ -30,8 +30,7 @@
         "build": "tsc",
         "dev": "tsc --watch",
         "test": "jest",
-        "test:watch": "jest --watch",
-        "demo": "node ./dist/cli.js"
+        "test:watch": "jest --watch"
     },
     "devDependencies": {
         "@types/jest": "^26.0.15",

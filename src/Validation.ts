@@ -18,9 +18,13 @@ export function parseNumber(raw: string): number {
     return value
 }
 
-export function parseBoolean(raw: string): boolean {
+export function parseBoolean(raw: string | undefined): boolean {
     const trueValues = ['true', '1']
     const falseValues = ['false', '0']
+
+    if (typeof raw === 'undefined' || raw === '') {
+        return true
+    }
 
     if (trueValues.includes(raw)) {
         return true
