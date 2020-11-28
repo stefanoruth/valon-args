@@ -7,11 +7,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.1.0] - 2020-11-28
+
+### Added
+
+-   New --help option
+
 ## [1.0.3] - 2020-11-20
 
 ### Added
 
 -   Everything!
 
-[unreleased]: https://github.com/stefanoruth/valon-args/compare/v1.0.3...HEAD
+[unreleased]: https://github.com/stefanoruth/valon-args/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/stefanoruth/valon-args/compare/v1.0.3...v1.1.0
 [1.0.3]: https://github.com/stefanoruth/valon-args/releases/tag/v1.0.3
