@@ -43,7 +43,7 @@ const args = cliArgs({ name: 'string?' })
 
 Supported types
 
-| Input Value | Typescript type      |
+| Input Type | Typescript type      |
 | ----------- | -------------------- |
 | string      | string               |
 | string?     | string \| undefined  |
