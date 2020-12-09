@@ -34,7 +34,7 @@
         "prepare-release": "yarn clean && yarn build && yarn test --coverage"
     },
     "devDependencies": {
-        "@types/jest": "^26.0.17",
+        "@types/jest": "^26.0.18",
         "@types/node": "^14.14.11",
         "jest": "^26.6.3",
         "prettier": "^2.2.1",
