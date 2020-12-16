@@ -1,10 +1,22 @@
 import { cliArgs as cli } from './index'
 
+const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => undefined as never)
+const mockLog = jest.spyOn(console, 'log').mockImplementation(value => value)
+
+afterEach(() => {
+    jest.clearAllMocks()
+})
+
 describe('Argument Types', () => {
     describe('String', () => {
         describe('Required String', () => {
             test('Empty', () => {
                 expect(() => cli({ name: 'string' }, [])).toThrow()
+                expect(mockExit).toHaveBeenCalledWith(1)
+                expect(mockLog.mock.calls[0][0]).toMatchInlineSnapshot(`
+                    "[33mError:[0m
+                      Missing Argument: \\"name\\""
+                `)
             })
 
             test('Filled', () => {
@@ -59,10 +71,20 @@ describe('Argument Types', () => {
         describe('Required Number', () => {
             test('Empty', () => {
                 expect(() => cli({ age: 'number' }, [])).toThrow()
+                expect(mockExit).toHaveBeenCalledWith(1)
+                expect(mockLog.mock.calls[0][0]).toMatchInlineSnapshot(`
+                    "[33mError:[0m
+                      Missing Argument: \\"age\\""
+                `)
             })
 
             test('Invalid number argument', () => {
                 expect(() => cli({ age: 'number' }, ['--age=foo'])).toThrow()
+                expect(mockExit).toHaveBeenCalledWith(1)
+                expect(mockLog.mock.calls[0][0]).toMatchInlineSnapshot(`
+                    "[33mError:[0m
+                      Invalid Number Argument: \\"foo\\""
+                `)
             })
 
             test('Filled', () => {

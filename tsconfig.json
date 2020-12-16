@@ -4,7 +4,7 @@
         "module": "commonjs",
         "outDir": "dist",
         "sourceMap": true,
-        "baseUrl": "./src",
+        "baseUrl": "./",
         "strict": true,
         "declaration": true,
         "moduleResolution": "Node",
@@ -12,5 +12,6 @@
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true
     },
+    "include": ["src"],
     "exclude": ["src/**/*.test.ts", "dist"]
 }
