@@ -31,7 +31,8 @@
         "dev": "tsc --watch",
         "test": "jest",
         "test:watch": "jest --watch",
-        "prepare-release": "yarn clean && yarn build && yarn test --coverage"
+        "prepare-release": "yarn clean && yarn build && yarn test --coverage",
+        "example": "ts-node example/index.ts"
     },
     "devDependencies": {
         "@types/jest": "^26.0.18",
