@@ -44,11 +44,50 @@ const args = cliArgs({ name: 'string?' })
 Supported types
 
 | Input Type | Typescript type      |
-| ----------- | -------------------- |
-| string      | string               |
-| string?     | string \| undefined  |
-| string[]    | string[]             |
-| number      | number               |
-| number?     | number \| undefined  |
-| number[]    | number[]             |
-| boolean     | boolean \| undefined |
+| ---------- | -------------------- |
+| string     | string               |
+| string?    | string \| undefined  |
+| string[]   | string[]             |
+| number     | number               |
+| number?    | number \| undefined  |
+| number[]   | number[]             |
+| boolean    | boolean \| undefined |
+
+### Usage
+
+#### String
+
+```ts
+node ./example.js --string=foo // 'foo'
+node ./example.js --string="foo bar" // 'foo bar'
+```
+
+#### String[]
+
+```ts
+node ./example.js --string=foo --string=bar // ['foo', 'bar']
+node ./example.js --string="foo bar" --string="bar baz" // ['foo bar', 'bar baz']
+```
+
+#### Number
+
+```ts
+node ./example.js --number=1 // 1
+```
+
+#### Number[]
+
+```ts
+node ./example.js --number=1 --number=2 // [1, 2]
+```
+
+#### Boolean
+
+```ts
+node ./example.js --force // true
+node ./example.js --force=true // true
+node ./example.js --force=false // false
+node ./example.js --force=1 // true
+node ./example.js --force=0 // false
+node ./example.js // undefined
+```
