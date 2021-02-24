@@ -1,28 +1,39 @@
-export type ParsedArgs = { name: string; value: string | undefined }[]
+export interface ParsedArgs {
+    [k: string]: string | string[] | undefined
+}
 
 export function parseArgs(args: string[]): ParsedArgs {
-    return args.map(arg => {
+    let name: string
+
+    return args.reduce<{ [k: string]: string | undefined | string[] }>((obj, arg) => {
         const splitPos = arg.indexOf('=')
-        let name: string
-
-        if (splitPos === -1) {
-            name = arg.substr(2)
-        } else {
-            name = arg.substr(2, splitPos - 2)
-        }
-
+        const isArg = arg.startsWith('--')
         let value: string | undefined
 
-        if (splitPos !== -1) {
-            value = arg.substr(splitPos + 1)
-
-            if (value.length === 0) {
-                value = undefined
-            } else if (value.startsWith('"') && value.endsWith('"')) {
-                value = value.substr(1, value.length - 2)
+        if (isArg) {
+            if (splitPos !== -1) {
+                name = arg.slice(2, splitPos)
+            } else {
+                name = arg.slice(2)
             }
         }
 
-        return { name, value }
-    })
+        if (splitPos !== -1) {
+            value = arg.slice(splitPos + 1)
+        } else if (!isArg) {
+            value = arg
+        }
+
+        if (typeof obj[name] === 'undefined') {
+            obj[name] = value
+        } else if (value) {
+            if (typeof obj[name] === 'string') {
+                obj[name] = [obj[name] as string, value]
+            } else if (Array.isArray(obj[name])) {
+                ;(obj[name] as string[]).push(value)
+            }
+        }
+
+        return obj
+    }, {})
 }

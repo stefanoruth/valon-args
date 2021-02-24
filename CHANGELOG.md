@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   Changed the implement for array args
+
 ## [1.1.1] - 2020-12-16
 
 ### Added

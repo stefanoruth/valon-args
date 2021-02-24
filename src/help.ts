@@ -3,9 +3,7 @@ import { ParsedArgs } from './ParseArgs'
 import { InputTypes } from './types'
 
 export function userWantsHelp(args: ParsedArgs): boolean {
-    const helpArg = args.find(i => i.name === 'help')
-
-    return !!helpArg
+    return 'help' in args
 }
 
 export function displayHelp(args: { [k: string]: InputTypes }): string {

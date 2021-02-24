@@ -67,6 +67,7 @@ node ./example.js --string="foo bar" // 'foo bar'
 ```ts
 node ./example.js --string=foo --string=bar // ['foo', 'bar']
 node ./example.js --string="foo bar" --string="bar baz" // ['foo bar', 'bar baz']
+node ./example.js --string "foo bar" foobar "bar baz" // ['foo bar', 'foobar', 'bar baz']
 ```
 
 #### Number

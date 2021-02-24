@@ -2,8 +2,8 @@ import { userWantsHelp, displayHelp } from './help'
 
 describe('Help', () => {
     test('User passes in --help', () => {
-        expect(userWantsHelp([])).toBeFalsy()
-        expect(userWantsHelp([{ name: 'help', value: '' }])).toBeTruthy()
+        expect(userWantsHelp({})).toBeFalsy()
+        expect(userWantsHelp({ help: undefined })).toBeTruthy()
     })
 
     test('Display of help', () => {

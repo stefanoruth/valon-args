@@ -13,9 +13,28 @@ export function cliArgs<T extends { [k: string]: InputTypes }>(
 
         const output: { [k in keyof T]?: any } = {}
 
-        const getInput = (name: string) => input.find(i => i.name === name)
-        const getValue = (name: string) => input.find(i => i.name === name)?.value
-        const getValues = (name: string) => input.filter(i => i.name === name).map(i => i.value)
+        const getValue = (name: string) => {
+            const value = input[name]
+
+            if (Array.isArray(value)) {
+                return value.toString()
+            }
+
+            return value
+        }
+        const getValues = (name: string): string[] => {
+            const values = input[name]
+
+            if (typeof values === 'undefined') {
+                return []
+            }
+
+            if (typeof values === 'string') {
+                return [values]
+            }
+
+            return values
+        }
 
         for (const key of Object.keys(returnArgs)) {
             const type = returnArgs[key]
@@ -33,17 +52,15 @@ export function cliArgs<T extends { [k: string]: InputTypes }>(
                 value = getValue(key)
 
                 if (value) {
-                    value = parseNumber(value)
+                    value = parseNumber(value.toString())
                 }
             } else if (type === 'number[]') {
                 value = getValues(key)
                     .filter(Boolean)
                     .map(val => parseNumber(required(val, key)))
             } else if (type == 'boolean') {
-                const bool = getInput(key)
-
-                if (bool) {
-                    value = parseBoolean(bool.value)
+                if (key in input) {
+                    value = parseBoolean(getValue(key))
                 }
             }
 

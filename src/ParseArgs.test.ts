@@ -1,25 +1,27 @@
 import { parseArgs } from './ParseArgs'
+import stringArgv from 'string-argv'
 
 describe('ParseArgs', () => {
     test('Empty', () => {
-        expect(parseArgs([])).toEqual([])
+        expect(parseArgs(stringArgv(''))).toEqual({})
     })
 
     test('Single with value', () => {
-        expect(parseArgs(['--name=foo'])).toEqual([{ name: 'name', value: 'foo' }])
-        expect(parseArgs(['--name="foo bar"'])).toEqual([{ name: 'name', value: 'foo bar' }])
+        expect(parseArgs(stringArgv('--name=foo'))).toEqual({ name: 'foo' })
+        expect(parseArgs(stringArgv('"--name=foo bar"'))).toEqual({ name: 'foo bar' })
     })
 
     test('Single without value', () => {
-        expect(parseArgs(['--name'])).toEqual([{ name: 'name', value: undefined }])
+        expect(parseArgs(stringArgv('--name'))).toEqual({ name: undefined })
     })
 
     test('Mutiple', () => {
-        expect(parseArgs(['--name=foo', '--name=bar', '--name=baz', '--name='])).toEqual([
-            { name: 'name', value: 'foo' },
-            { name: 'name', value: 'bar' },
-            { name: 'name', value: 'baz' },
-            { name: 'name', value: undefined },
-        ])
+        expect(parseArgs(stringArgv('--name=foo --name=bar --name=baz --name='))).toEqual({
+            name: ['foo', 'bar', 'baz'],
+        })
+    })
+
+    test('Multiple in same arg', () => {
+        expect(parseArgs(stringArgv('--names 1 2 3'))).toEqual({ names: ['1', '2', '3'] })
     })
 })
