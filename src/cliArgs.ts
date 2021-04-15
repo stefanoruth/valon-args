@@ -4,10 +4,13 @@ import { parseBoolean, parseNumber, required } from './Validation'
 import { displayHelp, userWantsHelp } from './help'
 import { displayError } from './Errors'
 
-export function cliArgs<T extends { [k: string]: InputTypes }>(
-    returnArgs: T,
+export type InputArgs = { [k: string]: InputTypes }
+export type ReturnValues<T extends InputArgs> = { [k in keyof T]: ReturnTypes<T[k]> }
+
+export function cliArgs<T extends InputArgs>(
+    inputArgs: T,
     args?: string[]
-): { [k in keyof T]: ReturnTypes<T[k]> } {
+): ReturnValues<T> {
     try {
         const input = parseArgs(args || process.argv.slice(2))
 
@@ -36,8 +39,8 @@ export function cliArgs<T extends { [k: string]: InputTypes }>(
             return values
         }
 
-        for (const key of Object.keys(returnArgs)) {
-            const type = returnArgs[key]
+        for (const key of Object.keys(inputArgs)) {
+            const type = inputArgs[key]
             let value
 
             if (type === 'string[]') {
@@ -68,7 +71,7 @@ export function cliArgs<T extends { [k: string]: InputTypes }>(
         }
 
         if (userWantsHelp(input)) {
-            console.log(displayHelp(returnArgs))
+            console.log(displayHelp(inputArgs))
 
             // Exit when not stubbed
             process.exit(0)

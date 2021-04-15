@@ -1,1 +1,1 @@
-export { cliArgs } from './cliArgs'
+export { cliArgs, InputArgs, ReturnValues } from './cliArgs'
