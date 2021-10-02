@@ -7,10 +7,7 @@ import { displayError } from './Errors'
 export type InputArgs = { [k: string]: InputTypes }
 export type ReturnValues<T extends InputArgs> = { [k in keyof T]: ReturnTypes<T[k]> }
 
-export function cliArgs<T extends InputArgs>(
-    inputArgs: T,
-    args?: string[]
-): ReturnValues<T> {
+export function cliArgs<T extends InputArgs>(inputArgs: T, args?: string[]): ReturnValues<T> {
     try {
         const input = parseArgs(args || process.argv.slice(2))
 
@@ -79,7 +76,9 @@ export function cliArgs<T extends InputArgs>(
 
         return output as any
     } catch (error) {
-        console.log(displayError(error))
+        if (error instanceof Error) {
+            console.log(displayError(error))
+        }
 
         // Exit when not stubbed
         if (1) {
