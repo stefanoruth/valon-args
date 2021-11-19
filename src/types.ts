@@ -1,17 +1,4 @@
-export type InputTypes = 'string' | 'string?' | 'string[]' | 'number' | 'number?' | 'number[]' | 'boolean'
+import { InputRules, ReturnValues } from './rules'
 
-export type ReturnTypes<T extends InputTypes> = T extends 'string'
-    ? string
-    : T extends 'string?'
-    ? string | undefined
-    : T extends 'string[]'
-    ? string[]
-    : T extends 'boolean'
-    ? boolean | undefined
-    : T extends 'number'
-    ? number
-    : T extends 'number?'
-    ? number | undefined
-    : T extends 'number[]'
-    ? number[]
-    : unknown
+export type RuleSet = { [k: string]: InputRules }
+export type ResultValues<T extends RuleSet> = { [k in keyof T]: ReturnValues<T[k]> }

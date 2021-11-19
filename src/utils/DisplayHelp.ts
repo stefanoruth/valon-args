@@ -1,6 +1,8 @@
+import { ParsedArgs } from '../arguments'
 import { tab, textGreen, textYellow } from './Color'
-import { ParsedArgs } from './ParseArgs'
-import { InputTypes } from './types'
+// import { InputTypes } from './argumentTypes/types'
+
+type InputTypes = any
 
 export function userWantsHelp(args: ParsedArgs): boolean {
     return 'help' in args

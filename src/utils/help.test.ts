@@ -1,4 +1,4 @@
-import { userWantsHelp, displayHelp } from './help'
+import { userWantsHelp, displayHelp } from '../help'
 
 describe('Help', () => {
     test('User passes in --help', () => {
@@ -12,9 +12,9 @@ describe('Help', () => {
               command [options]
 
             [33mOptions:[0m
-              [32m--help[0m boolean  
-              [32m--foo [0m string   
-              [32m--bar [0m string?  
+              [32m--help[0m boolean
+              [32m--foo [0m string
+              [32m--bar [0m string?
               [32m--baz [0m string[] "
         `)
     })
