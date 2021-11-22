@@ -1,9 +1,13 @@
+import { InputRules } from '.'
+import { ParsedArgs } from '../arguments'
 import { RuleWithKey, StringRule, StringValue } from './types'
 
-export function parseStringRule<T extends StringRule>(rule: RuleWithKey<T>, value: any): StringValue<T> {
-    if (rule.type !== 'string') {
+export function parseStringRule<T extends StringRule>(rule: RuleWithKey<T>, args: ParsedArgs): StringValue<T> {
+    if (!isStringRule(rule)) {
         throw new Error('Invalid Rule Type')
     }
+
+    const value = args[rule.key]
 
     if (rule.array) {
         let data: string[]
@@ -40,4 +44,8 @@ export function parseStringRule<T extends StringRule>(rule: RuleWithKey<T>, valu
     }
 
     return value as any
+}
+
+export function isStringRule(rule: InputRules): rule is StringRule {
+    return rule.type === 'string'
 }

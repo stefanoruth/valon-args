@@ -27,6 +27,8 @@ export type RuleWithKey<T> = T & { key: string }
 
 export type InputRules = Omit<StringRule | NumberRule | BooleanRule | GroupRule | OneOfRule, 'key'>
 
+export type RuleTypes = Pick<InputRules, 'type'>['type']
+
 export type ReturnValues<T extends InputRules> = T extends StringRule
     ? StringValue<T>
     : T extends NumberRule
