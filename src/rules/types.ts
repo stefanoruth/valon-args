@@ -4,8 +4,10 @@ export type BooleanValue<T extends BooleanRule> = T['required'] extends true ? b
 
 // String
 export type StringRule = { type: 'string'; required?: boolean; array?: boolean }
-export type StringValue<T extends StringRule> = T['array'] extends true
+export type StringValue<T extends StringRule> = T extends { required: true; array: true }
     ? string[]
+    : T['array'] extends true
+    ? string[] | undefined
     : T['required'] extends true
     ? string
     : string | undefined
@@ -23,11 +25,10 @@ export type OneOfRule = { type: 'oneOf'; args: { [k: string]: InputRules }[] }
 export type OneOfValue<T extends OneOfRule> = unknown
 
 // Generics
-export type RuleWithKey<T> = T & { key: string }
 
-export type InputRules = Omit<StringRule | NumberRule | BooleanRule | GroupRule | OneOfRule, 'key'>
+export type InputRules = StringRule | NumberRule | BooleanRule | GroupRule | OneOfRule
 
-export type RuleTypes = Pick<InputRules, 'type'>['type']
+export type RuleTypes = InputRules['type']
 
 export type ReturnValues<T extends InputRules> = T extends StringRule
     ? StringValue<T>
@@ -38,21 +39,3 @@ export type ReturnValues<T extends InputRules> = T extends StringRule
     : T extends GroupRule
     ? GroupValue<T>
     : unknown
-
-// Testing
-// type a = ReturnValues<{ type: 'string'; required: false }>
-
-// type MyRule = {
-//     type: 'oneOf'
-//     args: [{ age: { type: 'number' } }, { from: { type: 'string' }; to: { type: 'string' } }]
-// }
-
-// type ElementType<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<infer ElementType> ? ElementType : never
-
-// type MyValue = OneOfValue<MyRule>
-
-// type A = MyRule['args'][number]
-
-// type Args = { [k in keyof ElementType<MyRule['args'] as const>]: unknown }
-
-// type A2 = { [n: number]: MyRule['args'][keyof MyRule['args']] }
