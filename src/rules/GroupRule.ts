@@ -1,5 +1,5 @@
-import { GroupRule, GroupValue, RuleWithKey } from './types'
+import { GroupRule, GroupValue } from './types'
 
-export function parseGroupRule<T extends GroupRule>(rule: RuleWithKey<T>): GroupValue<T> {
+export function parseGroupRule<T extends GroupRule>(rule: T): GroupValue<T> {
     return null as any
 }

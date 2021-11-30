@@ -3,7 +3,7 @@ export type BooleanRule = { type: 'boolean'; required?: boolean }
 export type BooleanValue<T extends BooleanRule> = T['required'] extends true ? boolean : boolean | undefined
 
 // String
-export type StringRule = { type: 'string'; required?: boolean; array?: boolean }
+export type StringRule = { type: 'string'; required?: boolean; array?: boolean; delimiter?: string }
 export type StringValue<T extends StringRule> = T extends { required: true; array: true }
     ? string[]
     : T['array'] extends true
@@ -27,6 +27,8 @@ export type OneOfValue<T extends OneOfRule> = unknown
 // Generics
 
 export type InputRules = StringRule | NumberRule | BooleanRule | GroupRule | OneOfRule
+
+export type Resaly<T extends InputRules> = StringValue<T> | NumberValue<T>
 
 export type RuleTypes = InputRules['type']
 

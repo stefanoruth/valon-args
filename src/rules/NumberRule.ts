@@ -1,13 +1,12 @@
-import { InputRules } from '.'
-import { ParsedArgs } from '../arguments'
-import { NumberRule, NumberValue, RuleWithKey } from './types'
+import { ParsedArgValue } from '../arguments'
+import { NumberRule, NumberValue, InputRules } from './types'
 
-export function parseNumberRule<T extends NumberRule>(rule: RuleWithKey<T>, args: ParsedArgs): NumberValue<T> {
+export function parseNumberRule<T extends NumberRule>(rule: T, value: ParsedArgValue): NumberValue<T> {
     if (!isNumberRule(rule)) {
         throw new Error('Invalid Rule Type')
     }
 
-    const value = args[rule.key]?.toString()
+    value = value?.toString()
 
     if (rule.required) {
         if (!value) {

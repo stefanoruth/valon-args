@@ -1,4 +1,4 @@
-import { ResultValues, RuleSet } from '.'
+import { ResultValues, RuleSet } from './types'
 import { ParsedArgs } from './arguments'
 import {
     isBooleanRule,
@@ -9,20 +9,22 @@ import {
     parseNumberRule,
     parseOneOfRule,
     parseStringRule,
+    StringValue,
+    InputRules,
+    ReturnValues,
 } from './rules'
-import { InputRules, RuleWithKey, ReturnValues } from './rules/types'
 
-export function parseRule<T extends InputRules>(rule: RuleWithKey<T>, args: ParsedArgs): ReturnValues<T> {
+export function parseRule<T extends InputRules>(rule: T, key: string, args: ParsedArgs) {
     if (isStringRule(rule)) {
-        return parseStringRule(rule, args) as any
+        return parseStringRule(rule, args[key])
     }
 
     if (isNumberRule(rule)) {
-        return parseNumberRule(rule, args) as any
+        return parseNumberRule(rule, args[key])
     }
 
     if (isBooleanRule(rule)) {
-        return parseBooleanRule(rule, args) as any
+        return parseBooleanRule(rule, key, args)
     }
 
     // if (rule.type === 'group') {
@@ -40,7 +42,7 @@ export function validateAndParseArguments<T extends RuleSet>(rules: T, args: Par
     const res = Object.entries(rules)
         .map(([name, config]) => ({ ...config, key: name }))
         .reduce<ResultValues<T>>((obj, config) => {
-            const parsedValue = parseRule(config, args)
+            const parsedValue = parseRule(config, config.key, args)
 
             console.log({ parsedValue, config })
 

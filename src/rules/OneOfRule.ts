@@ -1,5 +1,5 @@
-import { OneOfRule, OneOfValue, RuleWithKey } from './types'
+import { OneOfRule, OneOfValue } from './types'
 
-export function parseOneOfRule<T extends OneOfRule>(rule: RuleWithKey<T>): OneOfValue<T> {
+export function parseOneOfRule<T extends OneOfRule>(rule: T): OneOfValue<T> {
     return null as any
 }
