@@ -7,7 +7,7 @@ const result = cliArgs(
         take: { type: 'number', required: true },
         formatPretty: { type: 'boolean' },
     },
-    ['--name=steru', '--page=42', '--take=20', '--formatPretty']
+    ['--name=steru', '--page=42', '--take=20', '--formatPretty=0']
 )
 
 console.table(result)

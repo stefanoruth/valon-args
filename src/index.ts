@@ -1,2 +1,2 @@
 export { cliArgs } from './cliArgs'
-export { RuleSet, ResultValues } from './types'
+export { InputRules, ResultValues } from './types'

@@ -1,4 +1,4 @@
-import { cliArgs as cli } from './index'
+import { cliArgs } from './index'
 import stringArgv from 'string-argv'
 
 const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => undefined as never)
@@ -12,7 +12,7 @@ describe('Argument Types', () => {
     describe('String', () => {
         describe('Required String', () => {
             test('Empty', () => {
-                expect(() => cli({ name: 'string' }, stringArgv(''))).toThrow()
+                expect(() => cliArgs({ name: { type: 'string', required: true } }, stringArgv(''))).toThrow()
                 expect(mockExit).toHaveBeenCalledWith(1)
                 expect(mockLog.mock.calls[0][0]).toMatchInlineSnapshot(`
                     "[33mError:[0m
@@ -21,7 +21,7 @@ describe('Argument Types', () => {
             })
 
             test('Filled', () => {
-                const args = cli({ name: 'string' }, stringArgv('--name=foo'))
+                const args = cliArgs({ name: { type: 'string', required: true } }, stringArgv('--name=foo'))
 
                 expect(args.name).toBe('foo')
             })
@@ -29,13 +29,13 @@ describe('Argument Types', () => {
 
         describe('Optional String', () => {
             test('Empty', () => {
-                const args = cli({ name: 'string?' }, stringArgv(''))
+                const args = cliArgs({ name: { type: 'string' } }, stringArgv(''))
 
                 expect(args.name).toBeUndefined()
             })
 
             test('Filled', () => {
-                const args = cli({ name: 'string?' }, stringArgv('--name=foo'))
+                const args = cliArgs({ name: { type: 'string' } }, stringArgv('--name=foo'))
 
                 expect(args.name).toBe('foo')
             })
@@ -43,31 +43,34 @@ describe('Argument Types', () => {
 
         describe('Multilpe Strings', () => {
             test('Empty', () => {
-                const args = cli({ names: 'string[]' }, stringArgv(''))
+                const args = cliArgs({ names: { type: 'string', array: true } }, stringArgv(''))
 
                 expect(args.names).toEqual([])
             })
 
             test('One item', () => {
-                const args = cli({ names: 'string[]' }, stringArgv('--names=foo'))
+                const args = cliArgs({ names: { type: 'string', array: true } }, stringArgv('--names=foo'))
 
                 expect(args.names).toEqual(['foo'])
             })
 
             test('Two items', () => {
-                const args = cli({ names: 'string[]' }, stringArgv('--names=foo --names=bar'))
+                const args = cliArgs({ names: { type: 'string', array: true } }, stringArgv('--names=foo --names=bar'))
 
                 expect(args.names).toEqual(['foo', 'bar'])
             })
 
             test('Multiple items', () => {
-                const args = cli({ names: 'string[]' }, stringArgv('--names=foo --names=bar --names=baz'))
+                const args = cliArgs(
+                    { names: { type: 'string', array: true } },
+                    stringArgv('--names=foo --names=bar --names=baz')
+                )
 
                 expect(args.names).toEqual(['foo', 'bar', 'baz'])
             })
 
             test('Multiple values in the same arg', () => {
-                const args = cli({ names: 'string[]' }, stringArgv('--names foo bar baz'))
+                const args = cliArgs({ names: { type: 'string', array: true } }, stringArgv('--names foo bar baz'))
 
                 expect(args.names).toEqual(['foo', 'bar', 'baz'])
             })
@@ -77,7 +80,7 @@ describe('Argument Types', () => {
     describe('Number', () => {
         describe('Required Number', () => {
             test('Empty', () => {
-                expect(() => cli({ age: 'number' }, stringArgv(''))).toThrow()
+                expect(() => cliArgs({ age: { type: 'number', required: true } }, stringArgv(''))).toThrow()
                 expect(mockExit).toHaveBeenCalledWith(1)
                 expect(mockLog.mock.calls[0][0]).toMatchInlineSnapshot(`
                     "[33mError:[0m
@@ -86,7 +89,7 @@ describe('Argument Types', () => {
             })
 
             test('Invalid number argument', () => {
-                expect(() => cli({ age: 'number' }, stringArgv('--age=foo'))).toThrow()
+                expect(() => cliArgs({ age: { type: 'number', required: true } }, stringArgv('--age=foo'))).toThrow()
                 expect(mockExit).toHaveBeenCalledWith(1)
                 expect(mockLog.mock.calls[0][0]).toMatchInlineSnapshot(`
                     "[33mError:[0m
@@ -95,7 +98,7 @@ describe('Argument Types', () => {
             })
 
             test('Filled', () => {
-                const args = cli({ age: 'number' }, stringArgv('--age=24'))
+                const args = cliArgs({ age: { type: 'number', required: true } }, stringArgv('--age=24'))
 
                 expect(args.age).toBe(24)
             })
@@ -103,13 +106,13 @@ describe('Argument Types', () => {
 
         describe('Optional Number', () => {
             test('Empty', () => {
-                const args = cli({ age: 'number?' }, stringArgv(''))
+                const args = cliArgs({ age: { type: 'number' } }, stringArgv(''))
 
                 expect(args.age).toBeUndefined()
             })
 
             test('Filled', () => {
-                const args = cli({ age: 'number?' }, stringArgv('--age=24'))
+                const args = cliArgs({ age: { type: 'number' } }, stringArgv('--age=24'))
 
                 expect(args.age).toBe(24)
             })
@@ -117,25 +120,31 @@ describe('Argument Types', () => {
 
         describe('Multilpe  Numbers', () => {
             test('Empty', () => {
-                const args = cli({ numbers: 'number[]' }, stringArgv(''))
+                const args = cliArgs({ numbers: { type: 'number', array: true } }, stringArgv(''))
 
                 expect(args.numbers).toEqual([])
             })
 
             test('One item', () => {
-                const args = cli({ numbers: 'number[]' }, stringArgv('--numbers=1'))
+                const args = cliArgs({ numbers: { type: 'number', array: true } }, stringArgv('--numbers=1'))
 
                 expect(args.numbers).toEqual([1])
             })
 
             test('Two items', () => {
-                const args = cli({ numbers: 'number[]' }, stringArgv('--numbers=1 --numbers=2'))
+                const args = cliArgs(
+                    { numbers: { type: 'number', array: true } },
+                    stringArgv('--numbers=1 --numbers=2')
+                )
 
                 expect(args.numbers).toEqual([1, 2])
             })
 
             test('Multiple items', () => {
-                const args = cli({ numbers: 'number[]' }, stringArgv('--numbers=1 --numbers=2 --numbers=3'))
+                const args = cliArgs(
+                    { numbers: { type: 'number', array: true } },
+                    stringArgv('--numbers=1 --numbers=2 --numbers=3')
+                )
 
                 expect(args.numbers).toEqual([1, 2, 3])
             })
@@ -144,43 +153,43 @@ describe('Argument Types', () => {
 
     describe('Boolean', () => {
         test('Empty', () => {
-            const args = cli({ foo: 'boolean' }, stringArgv(''))
+            const args = cliArgs({ foo: { type: 'boolean' } }, stringArgv(''))
 
             expect(args.foo).toBeUndefined()
         })
 
         test('Preset but not filled', () => {
-            const args = cli({ foo: 'boolean' }, stringArgv('--foo'))
+            const args = cliArgs({ foo: { type: 'boolean' } }, stringArgv('--foo'))
 
             expect(args.foo).toBeTruthy()
         })
 
         test('Preset with no value', () => {
-            const args = cli({ foo: 'boolean' }, stringArgv('--foo='))
+            const args = cliArgs({ foo: { type: 'boolean' } }, stringArgv('--foo='))
 
             expect(args.foo).toBeTruthy()
         })
 
         test('Preset with "true" value', () => {
-            const args = cli({ foo: 'boolean' }, stringArgv('--foo=true'))
+            const args = cliArgs({ foo: { type: 'boolean' } }, stringArgv('--foo=true'))
 
             expect(args.foo).toBeTruthy()
         })
 
         test('Preset with "1" value', () => {
-            const args = cli({ foo: 'boolean' }, stringArgv('--foo=1'))
+            const args = cliArgs({ foo: { type: 'boolean' } }, stringArgv('--foo=1'))
 
             expect(args.foo).toBeTruthy()
         })
 
         test('Preset with "false" value', () => {
-            const args = cli({ foo: 'boolean' }, stringArgv('--foo=false'))
+            const args = cliArgs({ foo: { type: 'boolean' } }, stringArgv('--foo=false'))
 
             expect(args.foo).toBeFalsy()
         })
 
         test('Preset with "0" value', () => {
-            const args = cli({ foo: 'boolean' }, stringArgv('--foo=0'))
+            const args = cliArgs({ foo: { type: 'boolean' } }, stringArgv('--foo=0'))
 
             expect(args.foo).toBeFalsy()
         })

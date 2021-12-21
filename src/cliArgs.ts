@@ -1,12 +1,12 @@
 import { parseArgs } from './arguments'
 import { validateAndParseArguments } from './ParseRules'
-import { ResultValues, RuleSet } from './types'
+import { ResultValues, InputRules } from './types'
 
-export function cliArgs<T extends RuleSet>(rules: T, commandLineArguments?: string[]): ResultValues<T> {
+export function cliArgs<T extends InputRules>(rules: T, commandLineArguments?: string[]): ResultValues<T> {
     try {
         const args = parseArgs(commandLineArguments || process.argv.slice(2))
 
-        console.log({ args })
+        // console.log({ args })
 
         const output = validateAndParseArguments(rules, args)
 

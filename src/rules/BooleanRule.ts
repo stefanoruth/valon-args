@@ -1,15 +1,15 @@
 import { ParsedArgs } from '../arguments'
-import { BooleanRule, BooleanValue, InputRules } from './types'
+import { BooleanRule } from '../types'
 
-export function parseBooleanRule<T extends BooleanRule>(rule: T, key: string, args: ParsedArgs): BooleanValue<T> {
-    if (!isBooleanRule(rule)) {
-        throw new Error('Invalid Rule Type')
-    }
-
+export function parseBooleanRule<T extends BooleanRule>(rule: T, key: string, args: ParsedArgs) {
     const value = args[key]?.toString()
 
     if (key in args && typeof value === 'undefined') {
         return true
+    }
+
+    if (!(key in args)) {
+        return undefined
     }
 
     if (!value) {
@@ -27,9 +27,5 @@ export function parseBooleanRule<T extends BooleanRule>(rule: T, key: string, ar
         return false
     }
 
-    return undefined as any
-}
-
-export function isBooleanRule(rule: InputRules): rule is BooleanRule {
-    return rule.type === 'boolean'
+    return undefined
 }

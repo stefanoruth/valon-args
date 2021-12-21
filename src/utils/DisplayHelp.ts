@@ -1,22 +1,18 @@
 import { ParsedArgs } from '../arguments'
+import { InputRule, InputRules } from '../types'
 import { tab, textGreen, textYellow } from './Color'
-// import { InputTypes } from './argumentTypes/types'
-
-type InputTypes = any
 
 export function userWantsHelp(args: ParsedArgs): boolean {
     return 'help' in args
 }
 
-export function displayHelp(args: { [k: string]: InputTypes }): string {
-    const options: { command: string; type: InputTypes; help: string }[] = [
-        { command: 'help', type: 'boolean', help: '' },
-    ]
+export function displayHelp(args: InputRules): string {
+    const options: { command: string; rule: InputRule }[] = [{ command: 'help', rule: { type: 'boolean' } }]
 
     for (const command of Object.keys(args)) {
-        const type = args[command]
+        const rule = args[command]
 
-        options.push({ command, type, help: '' })
+        options.push({ command, rule })
     }
 
     let commandLength = 0
@@ -26,8 +22,8 @@ export function displayHelp(args: { [k: string]: InputTypes }): string {
         if (line.command.length > commandLength) {
             commandLength = line.command.length
         }
-        if (line.type.length > typeLength) {
-            typeLength = line.type.length
+        if (line.rule.type.length > typeLength) {
+            typeLength = line.rule.type.length
         }
     })
 
@@ -38,8 +34,8 @@ export function displayHelp(args: { [k: string]: InputTypes }): string {
         ...options.map(option =>
             [
                 tab + textGreen('--' + option.command.padEnd(commandLength, ' ')),
-                option.type.padEnd(typeLength, ' '),
-                option.help,
+                option.rule.type.padEnd(typeLength, ' '),
+                option.rule.help,
             ].join(' ')
         ),
     ]

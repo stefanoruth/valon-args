@@ -1,9 +1,10 @@
 import { ParsedArgValue } from '../arguments'
-import { NumberRule, NumberValue, InputRules } from './types'
+import { NumberRule } from '../types'
+import { parseArray } from './ParseArray'
 
-export function parseNumberRule<T extends NumberRule>(rule: T, value: ParsedArgValue): NumberValue<T> {
-    if (!isNumberRule(rule)) {
-        throw new Error('Invalid Rule Type')
+export function parseNumberRule<T extends NumberRule>(rule: T, value: ParsedArgValue) {
+    if (rule.array) {
+        return parseArray(rule, value).map(v => parseFloat(v))
     }
 
     value = value?.toString()
@@ -13,12 +14,8 @@ export function parseNumberRule<T extends NumberRule>(rule: T, value: ParsedArgV
             throw new Error('Value is required')
         }
 
-        return parseFloat(value) as any
+        return parseFloat(value)
     }
 
-    return (value ? parseFloat(value) : undefined) as any
-}
-
-export function isNumberRule(rule: InputRules): rule is NumberRule {
-    return rule.type === 'number'
+    return value ? parseFloat(value) : undefined
 }
