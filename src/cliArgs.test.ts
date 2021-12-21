@@ -1,4 +1,4 @@
-import { cliArgs } from './index'
+import { cliArgs } from './cliArgs'
 import stringArgv from 'string-argv'
 
 const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => undefined as never)
@@ -14,10 +14,7 @@ describe('Argument Types', () => {
             test('Empty', () => {
                 expect(() => cliArgs({ name: { type: 'string', required: true } }, stringArgv(''))).toThrow()
                 expect(mockExit).toHaveBeenCalledWith(1)
-                expect(mockLog.mock.calls[0][0]).toMatchInlineSnapshot(`
-                    "[33mError:[0m
-                      Missing Argument: \\"name\\""
-                `)
+                expect(mockLog.mock.calls[0][0]).toMatchInlineSnapshot(`[Error: Required value]`)
             })
 
             test('Filled', () => {
@@ -82,10 +79,7 @@ describe('Argument Types', () => {
             test('Empty', () => {
                 expect(() => cliArgs({ age: { type: 'number', required: true } }, stringArgv(''))).toThrow()
                 expect(mockExit).toHaveBeenCalledWith(1)
-                expect(mockLog.mock.calls[0][0]).toMatchInlineSnapshot(`
-                    "[33mError:[0m
-                      Missing Argument: \\"age\\""
-                `)
+                expect(mockLog.mock.calls[0][0]).toMatchInlineSnapshot(`[Error: Value is required]`)
             })
 
             test('Invalid number argument', () => {
