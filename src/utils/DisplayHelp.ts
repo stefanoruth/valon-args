@@ -1,19 +1,21 @@
 import { ParsedArgs } from '../arguments'
+import { parseBooleanRule } from '../rules'
 import { InputRule, InputRules } from '../types'
 import { tab, textGreen, textYellow } from './Color'
+import { capitalizeFirstLetter } from './utils'
 
-export function userWantsHelp(args: ParsedArgs): boolean {
-    return 'help' in args
+export function wantsHelp(args: ParsedArgs): boolean {
+    return !!parseBooleanRule({ type: 'boolean' }, 'help', args)
 }
 
 export function displayHelp(args: InputRules): string {
-    const options: { command: string; rule: InputRule }[] = [{ command: 'help', rule: { type: 'boolean' } }]
+    let options: { command: string; rule: InputRule }[] = [
+        { command: 'help', rule: { type: 'boolean', help: 'Displays help' } },
+    ]
 
-    for (const command of Object.keys(args)) {
-        const rule = args[command]
+    options.push(...Object.keys(args).map(command => ({ command, rule: args[command] })))
 
-        options.push({ command, rule })
-    }
+    options = options.sort((a, b) => a.command.localeCompare(b.command))
 
     let commandLength = 0
     let typeLength = 0
@@ -34,7 +36,7 @@ export function displayHelp(args: InputRules): string {
         ...options.map(option =>
             [
                 tab + textGreen('--' + option.command.padEnd(commandLength, ' ')),
-                option.rule.type.padEnd(typeLength, ' '),
+                capitalizeFirstLetter(option.rule.type.padEnd(typeLength, ' ')),
                 option.rule.help,
             ].join(' ')
         ),

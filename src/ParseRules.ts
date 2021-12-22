@@ -30,12 +30,10 @@ export function validateAndParseArguments<T extends InputRules>(rules: T, args: 
         .reduce<ResultValues<T>>((obj, config) => {
             const parsedValue = parseRule(config, config.key, args)
 
-            // console.log({ parsedValue, config })
-
             if (typeof obj[config.key] === 'undefined') {
                 ;(obj as any)[config.key] = parsedValue
             } else {
-                throw new Error('No dublicate keys here')
+                throw new Error('Dublicate key')
             }
 
             return obj

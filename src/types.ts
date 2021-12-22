@@ -27,8 +27,6 @@ export type NumberValue<T extends NumberRule> = T['required'] extends true ? num
 // Generics
 export type InputRule = StringRule | NumberRule | BooleanRule // | GroupRule | OneOfRule
 
-export type RuleTypes = InputRule['type']
-
 export type ReturnValue<T extends InputRule> = T extends StringRule
     ? StringValue<T>
     : T extends NumberRule
