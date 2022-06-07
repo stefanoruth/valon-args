@@ -4,7 +4,7 @@ import { BooleanRule } from '../types'
 export function parseBooleanRule<T extends BooleanRule>(rule: T, key: string, args: ParsedArgs) {
     const value = args[key]?.toString()
 
-    if (key in args && typeof value === 'undefined') {
+    if (key in args && (typeof value === 'undefined' || value.length === 0)) {
         return true
     }
 

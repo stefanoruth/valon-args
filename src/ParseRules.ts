@@ -13,6 +13,8 @@ import { ParsedArgs } from './arguments'
 import { parseBooleanRule, parseNumberRule, parseStringRule } from './rules'
 
 export function parseRule<T extends InputRule>(rule: T, key: string, args: ParsedArgs) {
+    console.log({ rule, key, args })
+
     if (rule.type === 'string') {
         return parseStringRule(rule, args[key]) as StringValue<StringRule>
     } else if (rule.type === 'number') {
@@ -25,6 +27,8 @@ export function parseRule<T extends InputRule>(rule: T, key: string, args: Parse
 }
 
 export function validateAndParseArguments<T extends InputRules>(rules: T, args: ParsedArgs): ResultValues<T> {
+    console.log({ rules, args })
+
     return Object.entries(rules)
         .map(([name, config]) => ({ ...config, key: name }))
         .reduce<ResultValues<T>>((obj, config) => {
