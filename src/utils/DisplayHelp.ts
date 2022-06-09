@@ -36,9 +36,11 @@ export function displayHelp(args: InputRules): string {
         ...options.map(option =>
             [
                 tab + textGreen('--' + option.command.padEnd(commandLength, ' ')),
-                capitalizeFirstLetter(option.rule.type.padEnd(typeLength, ' ')),
-                option.rule.help,
-            ].join(' ')
+                capitalizeFirstLetter(option.rule.type),
+                option.rule.help?.padStart(typeLength, ' '),
+            ]
+                .filter(Boolean)
+                .join(' ')
         ),
     ]
 

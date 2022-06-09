@@ -3,14 +3,14 @@ import { tab, textGreen, textYellow } from './Color'
 
 describe('Color', () => {
     it('Applies green color', () => {
-        // expect(textGreen('foo')).toMatchInlineSnapshot(`"[32mfoo[0m"`)
+        expect(textGreen('foo')).eql('\u001b[32mfoo\u001b[0m')
     })
 
     it('Applies yellow color', () => {
-        // expect(textYellow('foo')).toMatchInlineSnapshot(`"[33mfoo[0m"`)
+        expect(textYellow('foo')).eql('\u001b[33mfoo\u001b[0m')
     })
 
     it('Tab size', () => {
-        // expect(tab).toMatchInlineSnapshot(`"  "`)
+        expect(tab).eql('  ')
     })
 })

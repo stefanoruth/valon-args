@@ -58,10 +58,6 @@
         "arrowParens": "avoid",
         "printWidth": 120
     },
-    "jest": {
-        "preset": "ts-jest",
-        "testEnvironment": "node"
-    },
     "nodemonConfig": {
         "exec": "ts-node src/example.ts",
         "ext": "ts",
