@@ -18,7 +18,7 @@ describe('Parseing of Argument', () => {
             const rule: StringRule = { type: 'string', required: true }
 
             expect(() => parseStringRule(rule, undefined)).throw('Required value')
-            expect(() => parseStringRule(rule, [])).throw('Required value')
+            expect(() => parseStringRule(rule, [])).to.throw('Required value')
             expect(parseStringRule(rule, 'foo')).to.eql('foo')
         })
 
