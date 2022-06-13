@@ -1,7 +1,7 @@
 import { parseArgs } from './arguments'
 import { validateAndParseArguments } from './ParseRules'
 import { ResultValues, InputRules } from './types'
-import { displayHelp, wantsHelp } from './utils'
+import { displayHelp, testMode, wantsHelp } from './utils'
 
 export function cliArgs<T extends InputRules>(rules: T, commandLineArguments?: string[]): ResultValues<T> {
     try {
@@ -12,8 +12,9 @@ export function cliArgs<T extends InputRules>(rules: T, commandLineArguments?: s
         if (wantsHelp(args)) {
             console.log(displayHelp(rules))
 
-            // Exit when not stubbed
-            process.exit(0)
+            if (!testMode) {
+                process.exit(0)
+            }
         }
 
         const output = validateAndParseArguments(rules, args)
@@ -22,8 +23,7 @@ export function cliArgs<T extends InputRules>(rules: T, commandLineArguments?: s
     } catch (error) {
         console.log(error)
 
-        // Exit when not stubbed
-        if (1) {
+        if (!testMode) {
             process.exit(1)
         }
 

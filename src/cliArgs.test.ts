@@ -1,24 +1,24 @@
 import { cliArgs } from './cliArgs'
 import stringArgv from 'string-argv'
 import { expect } from 'chai'
+import sinon, { SinonStub, SinonMock, SinonExpectation } from 'sinon'
+
+let log: SinonStub
 
 describe('Argument Types', () => {
+    before(() => {
+        log = sinon.stub(console, 'log')
+    })
+
+    after(() => {
+        log.restore()
+    })
+
     describe('String', () => {
         describe('Required String', () => {
             it('Empty', () => {
                 expect(() => cliArgs({ name: { type: 'string', required: true } }, stringArgv(''))).throw()
-                // expect(mockExit).toHaveBeenCalledWith(1)
-                // expect(mockLog.mock.calls[0][0]).toMatchInlineSnapshot(`
-                //     Object {
-                //       "args": Object {},
-                //       "key": "name",
-                //       "rule": Object {
-                //         "key": "name",
-                //         "required": true,
-                //         "type": "string",
-                //       },
-                //     }
-                // `)
+                expect(log.getCall(0).args[0].message).eql('Required value')
             })
 
             it('Filled', () => {
@@ -98,6 +98,7 @@ describe('Argument Types', () => {
 
             it('Invalid number argument', () => {
                 expect(() => cliArgs({ age: { type: 'number', required: true } }, stringArgv('--age=foo'))).throw()
+
                 // expect(mockExit).toHaveBeenCalledWith(1)
                 // expect(mockLog.mock.calls[0][0]).toMatchInlineSnapshot(`
                 //     "[33mError:[0m
