@@ -1,12 +1,12 @@
-import { expect } from 'chai'
 import { parseStringRule } from './StringRule'
 import { parseNumberRule } from './NumberRule'
 import { parseBooleanRule } from './BooleanRule'
 import { BooleanRule, NumberRule, StringRule } from '../types'
+import { describe, expect, test } from 'vitest'
 
 describe('Parseing of Argument', () => {
     describe('String', () => {
-        it('Optional', () => {
+        test('Optional', () => {
             const rule: StringRule = { type: 'string' }
 
             expect(parseStringRule(rule, undefined)).undefined
@@ -14,7 +14,7 @@ describe('Parseing of Argument', () => {
             expect(parseStringRule(rule, 'foo')).to.eql('foo')
         })
 
-        it('Required', () => {
+        test('Required', () => {
             const rule: StringRule = { type: 'string', required: true }
 
             expect(() => parseStringRule(rule, undefined)).throw('Required value')
@@ -22,7 +22,7 @@ describe('Parseing of Argument', () => {
             expect(parseStringRule(rule, 'foo')).to.eql('foo')
         })
 
-        it('Array', () => {
+        test('Array', () => {
             const rule: StringRule = { type: 'string', array: true }
 
             expect(parseStringRule(rule, undefined)).to.eql([])
@@ -34,7 +34,7 @@ describe('Parseing of Argument', () => {
     })
 
     describe('Number', () => {
-        it('Optional', () => {
+        test('Optional', () => {
             const rule: NumberRule = { type: 'number' }
 
             expect(parseNumberRule(rule, undefined)).undefined
@@ -45,7 +45,7 @@ describe('Parseing of Argument', () => {
     })
 
     describe('Boolean', () => {
-        it('Optional', () => {
+        test('Optional', () => {
             const rule: BooleanRule = { type: 'boolean' }
 
             expect(parseBooleanRule(rule, 'force', {})).undefined
@@ -57,7 +57,7 @@ describe('Parseing of Argument', () => {
             expect(parseBooleanRule(rule, 'force', { force: '0' })).false
         })
 
-        it('Required', () => {
+        test('Required', () => {
             const rule: BooleanRule = { type: 'boolean', required: true }
         })
     })

@@ -1,14 +1,14 @@
-import { expect } from 'chai'
 import { wantsHelp, displayHelp } from './DisplayHelp'
 import { textGreen, textYellow } from './Color'
+import { describe, test, expect } from 'vitest'
 
 describe('Help', () => {
-    it('User passes in --help', () => {
+    test('User passes in --help', () => {
         expect(wantsHelp({})).false
         expect(wantsHelp({ help: undefined })).true
     })
 
-    it('Display of help', () => {
+    test('Display of help', () => {
         expect(
             displayHelp({
                 foo: { type: 'string', required: true },
