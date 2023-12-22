@@ -19,8 +19,10 @@ describe('Argument Types', () => {
     describe('String', () => {
         describe('Required String', () => {
             test('Empty', () => {
-                expect(() => cliArgs({ name: { type: 'string', required: true } }, stringArgv(''))).throw()
-                expect(log.getCall(0).args[0].message).eql('Required value')
+                cliArgs({ name: { type: 'string', required: true } }, stringArgv(''))
+
+                expect(log.mock.calls.at(0).at(0).message).eql('Required value')
+                expect(exit.mock.calls.length).toBe(1)
             })
 
             test('Filled', () => {
@@ -83,29 +85,15 @@ describe('Argument Types', () => {
     describe('Number', () => {
         describe('Required Number', () => {
             test('Empty', () => {
-                expect(() => cliArgs({ age: { type: 'number', required: true } }, stringArgv(''))).throw()
-                // expect(mockExit).toHaveBeenCalledWith(1)
-                // expect(mockLog.mock.calls[0][0]).toMatchInlineSnapshot(`
-                //     Object {
-                //       "args": Object {},
-                //       "key": "age",
-                //       "rule": Object {
-                //         "key": "age",
-                //         "required": true,
-                //         "type": "number",
-                //       },
-                //     }
-                // `)
+                cliArgs({ age: { type: 'number', required: true } }, stringArgv(''))
+
+                expect(exit.mock.calls.length).toBe(1)
             })
 
             test('Invalid number argument', () => {
-                expect(() => cliArgs({ age: { type: 'number', required: true } }, stringArgv('--age=foo'))).throw()
+                cliArgs({ age: { type: 'number', required: true } }, stringArgv('--age=foo'))
 
-                // expect(mockExit).toHaveBeenCalledWith(1)
-                // expect(mockLog.mock.calls[0][0]).toMatchInlineSnapshot(`
-                //     "[33mError:[0m
-                //       Invalid Number Argument: \\"foo\\""
-                // `)
+                expect(exit.mock.calls.length).toBe(1)
             })
 
             test('Filled', () => {

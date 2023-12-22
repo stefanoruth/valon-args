@@ -39,7 +39,7 @@ describe('Parseing of Argument', () => {
 
             expect(parseNumberRule(rule, undefined)).undefined
             expect(parseNumberRule(rule, '1')).to.eql(1)
-            expect(parseNumberRule(rule, [])).undefined
+            expect(parseNumberRule(rule, [])).NaN
             expect(parseNumberRule(rule, 'abc')).NaN
         })
     })

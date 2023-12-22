@@ -25,4 +25,8 @@ describe('ParseArgs', () => {
     test('Multiple in same arg', () => {
         expect(parseArgs(stringArgv('--names 1 2 3'))).eql({ names: ['1', '2', '3'] })
     })
+
+    test('Multiple definitions', () => {
+        expect(parseArgs(stringArgv('--names 1 --age=2 "--type=false"'))).eql({ names: '1', type: 'false', age: '2' })
+    })
 })
