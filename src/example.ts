@@ -9,7 +9,9 @@ const result = cliArgs(
         take: { type: 'number', required: true, help: 'Default: 20' },
         formatPretty: { type: 'boolean' },
     },
-    argv.length ? argv : ['--name=steru', '--page=42', '--take=20', '--formatPretty=0', '--help']
+    {
+        argv: argv.length ? argv : ['--name=steru', '--page=42', '--take=20', '--formatPretty=0', '--help'],
+    }
 )
 
 console.table(result)
