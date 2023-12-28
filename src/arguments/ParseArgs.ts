@@ -1,5 +1,7 @@
+export type ParsedArgValue = string | string[] | undefined
+
 export interface ParsedArgs {
-    [k: string]: string | string[] | undefined
+    [k: string]: ParsedArgValue
 }
 
 export function parseArgs(args: string[]): ParsedArgs {
