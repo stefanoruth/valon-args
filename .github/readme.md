@@ -13,6 +13,9 @@ npm install valon-args
 
 # Yarn
 yarn add valon-args
+
+# Pnpm
+pnpm add valon-args
 ```
 
 ## Example
@@ -21,9 +24,9 @@ yarn add valon-args
 import { cliArgs } from 'valon-args'
 
 const options = cliArgs({
-    name: 'string',
-    retries: 'number?',
-    force: 'boolean',
+    name: { type: 'string', required: true },
+    retries: { type: 'number' },
+    force: { type: 'boolean' },
 })
 
 // All args are now typed and validated.
@@ -38,7 +41,7 @@ options.force // boolean | undefined
 import { cliArgs } from 'valon-args'
 
 // Console args are automaticly parsed fron the terminal.
-const args = cliArgs({ name: 'string?' })
+const args = cliArgs({ name: { type: 'string' } })
 ```
 
 Supported types
