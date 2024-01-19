@@ -44,18 +44,6 @@ import { cliArgs } from 'valon-args'
 const args = cliArgs({ name: { type: 'string' } })
 ```
 
-Supported types
-
-| Input Type | Typescript type      |
-| ---------- | -------------------- |
-| string     | string               |
-| string?    | string \| undefined  |
-| string[]   | string[]             |
-| number     | number               |
-| number?    | number \| undefined  |
-| number[]   | number[]             |
-| boolean    | boolean \| undefined |
-
 ### Usage
 
 #### String
